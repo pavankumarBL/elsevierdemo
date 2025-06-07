@@ -2,9 +2,9 @@ name: Build Spring Boot Application
 
 on:
   push:
-    branches: [ main ]
+    branches: [ 'feature/**' ]
   pull_request:
-    branches: [ main ]
+    branches: [ 'feature/**' ]
 
 jobs:
   build:

@@ -94,3 +94,22 @@ Contributions are welcome! Please open issues or submit pull requests for improv
 ## License
 
 This project is licensed under the MIT License.
+
+## Project Structure
+
+```
+elsevierdemo/
+├── src/
+│   ├── main/
+│   │   ├── java/
+│   │   └── resources/
+│   └── test/
+├── .github/
+│   └── workflows/
+│       ├── build.yml
+│       └── deploy.yml
+├── Dockerfile
+├── pom.xml  (or build.gradle)
+├── .gitignore
+├── README.md
+```
