@@ -23,7 +23,3 @@ resource "aws_iam_role_policy_attachment" "cicd_deploy_attach" {
   role       = aws_iam_role.cicd_deploy.name
   policy_arn = "arn:aws:iam::aws:policy/AdministratorAccess"
 }
-
-output "execution_role_arn" {
-  value = aws_iam_role.cicd_deploy.arn
-}
