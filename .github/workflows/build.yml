@@ -3,12 +3,14 @@ name: Build Spring Boot Application
 on:
   push:
     branches: [ 'feature/**' ]
-    paths-ignore:
-      - 'infra/**'
+    paths:
+      - '**'
+      - '.github/workflows/build.yml'
   pull_request:
     branches: [ 'feature/**' ]
-    paths-ignore:
-      - 'infra/**'
+    paths:
+      - '**'
+      - '.github/workflows/build.yml'
 
 jobs:
   build:

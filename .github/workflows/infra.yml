@@ -4,9 +4,11 @@ on:
   push:
     paths:
       - 'infra/**'
+      - '.github/workflows/infra.yml'
   pull_request:
     paths:
       - 'infra/**'
+      - '.github/workflows/infra.yml'
 
 jobs:
   terraform:
