@@ -55,11 +55,6 @@ variable "ecs_desired_count" {
   type        = number
 }
 
-variable "ecs_security_group_ids" {
-  description = "Security group IDs for ECS tasks"
-  type        = list(string)
-}
-
 variable "nlb_name" {
   description = "Name of the Network Load Balancer"
   type        = string
@@ -75,19 +70,9 @@ variable "nlb_listener_port" {
   type        = number
 }
 
-variable "privatelink_security_group_ids" {
-  description = "Security group IDs for PrivateLink"
-  type        = list(string)
-}
-
 variable "api_gateway_name" {
   description = "Name of the API Gateway"
   type        = string
-}
-
-variable "api_gateway_security_group_ids" {
-  description = "Security group IDs for the API Gateway"
-  type        = list(string)
 }
 
 variable "privatelink_name" {

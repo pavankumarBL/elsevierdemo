@@ -21,7 +21,6 @@ module "ecs_fargate" {
   container_port      = var.ecs_container_port
   desired_count       = var.ecs_desired_count
   private_subnet_ids  = module.vpc.private_subnet_ids
-  security_group_ids  = var.ecs_security_group_ids
   target_group_arn    = module.nlb.target_group_arn
 }
 
@@ -49,6 +48,5 @@ module "api_gateway" {
   api_name            = var.api_gateway_name
   vpc_id              = module.vpc.vpc_id
   subnet_ids          = module.vpc.private_subnet_ids
-  security_group_ids  = var.api_gateway_security_group_ids
   nlb_listener_arn    = module.nlb.listener_arn
 }
