@@ -36,7 +36,7 @@ resource "aws_ecs_service" "this" {
   network_configuration {
     subnets         = var.private_subnet_ids
     assign_public_ip = false
-    security_groups = var.security_group_ids
+    security_groups = [aws_security_group.ecs.id]
   }
 
   load_balancer {

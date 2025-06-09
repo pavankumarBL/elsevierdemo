@@ -15,6 +15,7 @@ module "ecs_fargate" {
   cluster_name        = var.ecs_cluster_name
   cpu                 = var.ecs_cpu
   memory              = var.ecs_memory
+  vpc_id              = module.vpc.vpc_id
   container_name      = var.ecs_container_name
   ecr_repository_url  = module.ecr.repository_url
   container_port      = var.ecs_container_port
@@ -35,16 +36,18 @@ module "nlb" {
 }
 
 module "privatelink" {
-  source             = "./modules/privatelink"
-  vpc_id             = module.vpc.vpc_id
-  nlb_arns           = [module.nlb.nlb_arn]
-  subnet_ids         = module.vpc.private_subnet_ids
-  security_group_ids = var.privatelink_security_group_ids
+  source   = "./modules/privatelink"
+  name     = var.privatelink_name
+  vpc_id   = module.vpc.vpc_id
+  nlb_arns = [module.nlb.nlb_arn]
+  subnet_ids = module.vpc.private_subnet_ids
+  
 }
 
 module "api_gateway" {
   source              = "./modules/api_gateway"
   api_name            = var.api_gateway_name
+  vpc_id              = module.vpc.vpc_id
   subnet_ids          = module.vpc.private_subnet_ids
   security_group_ids  = var.api_gateway_security_group_ids
   nlb_listener_arn    = module.nlb.listener_arn

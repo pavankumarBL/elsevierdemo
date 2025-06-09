@@ -13,7 +13,7 @@ variable "subnet_ids" {
   type        = list(string)
 }
 
-variable "security_group_ids" {
-  description = "List of security group IDs for the VPC endpoint"
-  type        = list(string)
+variable "name" {
+  description = "The name to be used for resources"
+  type        = string
 }

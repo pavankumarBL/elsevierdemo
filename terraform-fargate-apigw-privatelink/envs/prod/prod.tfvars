@@ -12,13 +12,9 @@ ecs_memory           = "1024"
 ecs_container_name   = "prod-app"
 ecs_container_port   = 8080
 ecs_desired_count    = 4
-ecs_security_group_ids = ["sg-aaaaaaaa"]
 
 nlb_name               = "prod-nlb"
 nlb_target_group_name  = "prod-nlb-tg"
 nlb_listener_port      = 8080
 
-privatelink_security_group_ids = ["sg-bbbbbbbb"]
-
-api_gateway_name              = "prod-api-gateway"
-api_gateway_security_group_ids = ["sg-cccccccc"]
+api_gateway_name       = "prod-api-gateway"

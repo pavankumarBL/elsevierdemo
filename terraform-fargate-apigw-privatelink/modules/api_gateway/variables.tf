@@ -17,3 +17,8 @@ variable "nlb_listener_arn" {
   description = "ARN of the Network Load Balancer listener"
   type        = string
 }
+
+variable "vpc_id" {
+  description = "VPC ID for the API Gateway security group"
+  type        = string
+}

@@ -89,3 +89,8 @@ variable "api_gateway_security_group_ids" {
   description = "Security group IDs for the API Gateway"
   type        = list(string)
 }
+
+variable "privatelink_name" {
+  description = "The name of the PrivateLink"
+  type        = string
+}

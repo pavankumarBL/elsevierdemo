@@ -47,3 +47,8 @@ variable "target_group_arn" {
   description = "ARN of the target group for the load balancer"
   type        = string
 }
+
+variable "vpc_id" {
+  description = "The ID of the VPC where the ECS Fargate tasks will run"
+  type        = string
+}
