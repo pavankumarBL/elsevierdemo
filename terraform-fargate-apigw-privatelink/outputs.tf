@@ -23,5 +23,5 @@ output "privatelink_vpc_endpoint_id" {
 }
 
 output "api_gateway_url" {
-  value = module.api_gateway.invoke_url
+  value = module.api_gateway.api_endpoint
 }
