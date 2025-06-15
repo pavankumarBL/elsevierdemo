@@ -4,19 +4,34 @@ variable "aws_region" {
   default     = "us-east-1" # Replace with your desired default region
 }
 
-variable "vpc_name" {
-  description = "The name of the VPC"
-  type        = string
-}
-
-variable "vpc_cidr" {
-  description = "The CIDR block for the VPC"
-  type        = string
-}
-
 variable "azs" {
   description = "The availability zones for the VPC"
   type        = list(string)
+}
+
+variable "nlb_name" {
+  description = "Name of the Network Load Balancer"
+  type        = string
+}
+
+variable "nlb_target_group_name" {
+  description = "Name of the target group for the NLB"
+  type        = string
+}
+
+variable "nlb_listener_port" {
+  description = "Listener port for the NLB"
+  type        = number
+}
+
+variable "ecs_container_port" {
+  description = "Port on which the ECS container listens"
+  type        = number
+}
+
+variable "privatelink_name" {
+  description = "The name of the PrivateLink"
+  type        = string
 }
 
 # Variable for ECR repository name
@@ -45,28 +60,10 @@ variable "ecs_container_name" {
   type        = string
 }
 
-variable "ecs_container_port" {
-  description = "Port on which the ECS container listens"
-  type        = number
-}
+
 
 variable "ecs_desired_count" {
   description = "Desired number of ECS tasks"
-  type        = number
-}
-
-variable "nlb_name" {
-  description = "Name of the Network Load Balancer"
-  type        = string
-}
-
-variable "nlb_target_group_name" {
-  description = "Name of the target group for the NLB"
-  type        = string
-}
-
-variable "nlb_listener_port" {
-  description = "Listener port for the NLB"
   type        = number
 }
 
@@ -75,7 +72,3 @@ variable "api_gateway_name" {
   type        = string
 }
 
-variable "privatelink_name" {
-  description = "The name of the PrivateLink"
-  type        = string
-}

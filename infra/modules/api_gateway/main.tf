@@ -12,7 +12,7 @@ resource "aws_apigatewayv2_vpc_link" "this" {
 resource "aws_apigatewayv2_integration" "this" {
   api_id                 = aws_apigatewayv2_api.this.id
   integration_type       = "HTTP_PROXY"
-  integration_uri        = var.nlb_listener_arn
+  integration_uri        = var.listener_arn
   integration_method     = "ANY"
   payload_format_version = "1.0"
   connection_type        = "VPC_LINK"

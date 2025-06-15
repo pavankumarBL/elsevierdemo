@@ -8,7 +8,7 @@ variable "subnet_ids" {
   type        = list(string)
 }
 
-variable "nlb_listener_arn" {
+variable "listener_arn" {
   description = "ARN of the Network Load Balancer listener"
   type        = string
 }
