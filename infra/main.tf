@@ -73,6 +73,7 @@ module "ecr" {
 # ECS Fargate
 module "ecs_fargate" {
   source             = "./modules/ecs_fargate"
+  aws_region         = var.aws_region
   cluster_name       = var.ecs_cluster_name
   cpu                = var.ecs_cpu
   memory             = var.ecs_memory

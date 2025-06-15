@@ -60,8 +60,6 @@ variable "ecs_container_name" {
   type        = string
 }
 
-
-
 variable "ecs_desired_count" {
   description = "Desired number of ECS tasks"
   type        = number
