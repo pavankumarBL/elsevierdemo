@@ -199,5 +199,3 @@ resource "aws_vpc_endpoint" "s3" {
 #   destination_cidr_block = "0.0.0.0/0"
 #   nat_gateway_id        = element(aws_nat_gateway.private_nat_gateways.*.id, count.index % length(aws_nat_gateway.private_nat_gateways))
 # }
-
-
