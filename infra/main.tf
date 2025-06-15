@@ -126,8 +126,8 @@ resource "aws_route_table" "private_private_rt" {
 
 # Associate Private Subnets with Private Route Table
 resource "aws_route_table_association" "private_private_rt_assoc" {
-  count          = length(module.private_vpc.private_subnet_ids)
-  subnet_id      = element(module.private_vpc.private_subnet_ids, count.index)
+  count          = length(module.private_vpc_private_subnets.private_subnet_ids)
+  subnet_id      = element(module.private_vpc_private_subnets.private_subnet_ids, count.index)
   route_table_id = aws_route_table.private_private_rt.id
 }
 
