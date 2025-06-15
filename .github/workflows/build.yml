@@ -3,8 +3,16 @@ name: Build Spring Boot Application
 on:
   push:
     branches: [ 'feature/**' ]
+    paths-ignore:
+      - 'infra/**'
+      - '.github/workflows/deploy.yml'
+      - '.github/workflows/infra.yml'
   pull_request:
     branches: [ 'feature/**' ]
+    paths-ignore:
+      - 'infra/**'
+      - '.github/workflows/deploy.yml'
+      - '.github/workflows/infra.yml'
 
 jobs:
   build:
@@ -21,7 +29,13 @@ jobs:
           java-version: '17'
 
       - name: Build with Maven
-        run: mvn clean install
+        run: mvn clean package
 
       - name: Run tests
         run: mvn test
+
+      - name: Upload JAR Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: springboot-app
+          path: target/*.jar

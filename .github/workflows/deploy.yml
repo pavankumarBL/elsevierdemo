@@ -1,27 +1,61 @@
 # .github/workflows/deploy.yml
+name: Deploy Spring Boot Application
+
 on:
   push:
     branches: [ main ]
+    paths-ignore:
+      - 'infra/**'
+      - '.github/workflows/build.yml'
+      - '.github/workflows/infra.yml'
+  pull_request:
+    branches: [ main ]
+    paths-ignore:
+      - 'infra/**'
+      - '.github/workflows/build.yml'
+      - '.github/workflows/infra.yml'
+
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
-      - name: Set up JDK 11
-        uses: actions/setup-java@v2
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
-          java-version: '11'
-          java-package: jdk
-          architecture: x64
+          java-version: '17'
+
       - name: Build with Maven
         run: mvn clean package
-      - name: Docker Build
-        run: docker build -t my-app:${{ github.sha }} .
-      - name: Docker Push
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::587016560821:role/github-actions-terraform-role
+          aws-region: us-east-1
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Extract semantic version
+        id: get_version
         run: |
-          echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
-          docker push my-app:${{ github.sha }}
-      - name: Deploy to Server
-        run: ssh user@server "docker pull my-app:${{ github.sha }} && docker run -d my-app:${{ github.sha }}"
+          # Example: get version from pom.xml or git tag
+          VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+
+      - name: Build Docker image
+        run: |
+          docker build -t 587016560821.dkr.ecr.us-east-1.amazonaws.com/elsevier-demo-ecr-repo:${{ env.VERSION }} .
+
+      - name: Push Docker image to ECR
+        run: |
+          docker push 587016560821.dkr.ecr.us-east-1.amazonaws.com/elsevier-demo-ecr-repo:${{ env.VERSION }}

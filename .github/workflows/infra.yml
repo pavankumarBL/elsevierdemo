@@ -1,0 +1,42 @@
+name: Infra Pipeline
+
+on:
+  push:
+    paths:
+      - 'infra/**'
+      - '.github/workflows/infra.yml'
+  pull_request:
+    paths:
+      - 'infra/**'
+      - '.github/workflows/infra.yml'
+
+jobs:
+  terraform:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::587016560821:role/github-actions-terraform-role
+          aws-region: us-east-1
+
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v3
+
+      - name: Terraform Init
+        run: terraform -chdir=infra init
+
+      # - name: Terraform Format
+      #   run: terraform -chdir=infra fmt -check
+
+      # - name: Terraform Validate
+      #   run: terraform -chdir=infra validate
+
+      - name: Terraform Plan
+        run: terraform -chdir=infra plan
