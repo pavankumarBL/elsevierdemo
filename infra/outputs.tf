@@ -60,6 +60,10 @@ output "privatelink_security_group_id" {
   value       = module.privatelink.pvlink_security_group_id
 }
 
+output "ecs_security_group_id" {
+  value = module.ecs_fargate.ecs_security_group_id
+}
+
 # # Output for Private VPC
 # output "private_vpc_id" {
 #   value = module.private_vpc.vpc_id
