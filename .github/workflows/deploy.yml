@@ -2,6 +2,7 @@
 name: Deploy Spring Boot Application
 
 on:
+  workflow_dispatch:
   push:
     branches: [ main ]
     paths-ignore:
