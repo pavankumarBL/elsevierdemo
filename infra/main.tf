@@ -34,17 +34,6 @@ module "private_vpc_private_subnets" {
   create_private_subnets = true
 }
 
-# # Public Subnets for Private VPC
-# module "private_vpc_public_subnets" {
-#   source                 = "./modules/networking/subnet"
-#   vpc_id                 = module.private_vpc.vpc_id
-#   vpc_cidr               = module.private_vpc.vpc_cidr_block
-#   azs                    = var.azs
-#   name                   = "private-vpc-public-subnets"
-#   create_public_subnets  = true
-#   create_private_subnets = false
-# }
-
 # NLB in Private VPC
 module "nlb" {
   source            = "./modules/nlb"
@@ -101,9 +90,30 @@ resource "aws_vpc_endpoint" "ecr" {
   service_name       = "com.amazonaws.${var.aws_region}.ecr.dkr"
   subnet_ids         = module.private_vpc_private_subnets.private_subnet_ids
   vpc_endpoint_type  = "Interface"
-  security_group_ids = [module.ecs_fargate.ecs_security_group_id]
+  security_group_ids = [aws_security_group.ecr_endpoints.id]
   tags = {
     Name = "ecr-vpc-endpoint"
+  }
+}
+
+resource "aws_security_group" "ecr_endpoints" {
+  name        = "ecr-endpoints-sg"
+  description = "Allow ECS tasks to communicate with ECR endpoints"
+  vpc_id      = module.private_vpc.vpc_id
+
+  ingress {
+    from_port       = 443
+    to_port         = 443
+    protocol        = "tcp"
+    # Allow from ECS Fargate security group
+    security_groups = [module.ecs_fargate.ecs_security_group_id]
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
   }
 }
 
@@ -113,7 +123,7 @@ resource "aws_vpc_endpoint" "ecr_api" {
   service_name       = "com.amazonaws.${var.aws_region}.ecr.api"
   subnet_ids         = module.private_vpc_private_subnets.private_subnet_ids
   vpc_endpoint_type  = "Interface"
-  security_group_ids = [module.ecs_fargate.ecs_security_group_id]
+  security_group_ids = [aws_security_group.ecr_endpoints.id]
   tags = {
     Name = "ecr-api-vpc-endpoint"
   }
