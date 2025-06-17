@@ -16,7 +16,7 @@ resource "aws_security_group" "ecs" {
     from_port       = 443
     to_port         = 443
     protocol        = "tcp"
-    prefix_list_ids = [aws_vpc_endpoint.s3.prefix_list_id]
+    prefix_list_ids = [data.aws_prefix_list.s3.id]
   }
 
   # # Egress to anywhere (for ECR endpoints)
